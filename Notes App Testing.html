@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notes App Testing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="fontawesome-pro-master v5.15.1/css/all.min.css">
+  <style>
+    :root{
+      --width:100vw;
+    }
+    .fa-trash-alt,.fa-thumbtack,.fa-clock,.fa-copy,.fa-share{color: rgba(26,94,255,.8);}
+		.fa-trash-alt:hover,.fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover{
+			cursor: pointer;
+			transform: scale(1.1) rotate(10deg);
+			transition: all .2s;
+		}
+    .fa-trash-alt,.fa-thumbtack,.fa-copy{--fa-secondary-opacity:.45;}
+    .fa-trash-alt:hover{color: #ff0000 !important;}
+    /* .icon::before{
+      display: inline-block;
+      font-style: normal;
+      font-variant: normal;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+    }
+    .fa-trash::before{
+      font-family: "Font Awesome 5 Free";
+      font-weight: 700;
+      content: "\f1f8";
+    } */
+    h1{position: relative;}
+    h1::before,h1::after{
+      font-family: "Font Awesome 5 Duotone";
+      height: 17.4px;
+      font-weight: 900;
+      font-size: .573em;
+      display: block;
+      margin: 0 auto;
+    }
+    h1::before{
+      content: "\f005";
+      color: rgb(6, 232, 249);
+      position: absolute;
+      bottom: 0%;
+      width: 100%;
+    }
+    h1::after{
+      content: "\10f005";
+      color: rgb(66, 123, 255);
+      border-bottom: 2.45px dashed #3498db;
+      width: calc(var(--width) - 80vw);
+    }
+    .fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover{
+      color: #ffff00 !important;
+    }
+
+    .fa-thumbtack {
+      transform: rotate(45deg);
+    }
+
+    .gradient {
+      background-image: linear-gradient(to top right, rgba(6, 232, 249, .3), rgba(66, 123, 255, .3));
+    }
+
+    .gradient_border {
+      border: 3px groove rgba(66, 123, 255, .4);
+      border-radius: 30px 90px/90px 30px;
+      box-shadow: 2px 2px 2px 1px #000;
+    }
+
+    #addBtn,
+    .btn {
+      border-radius: 30px 90px/90px 30px;
+      box-shadow: 2px 2px 2px 1px #000;
+      background-image: linear-gradient(to top right, rgba(6, 232, 249, .8), rgba(66, 123, 255, .8));
+    }
+
+    #addBtn:hover,
+    .btn:hover {
+      background-image: linear-gradient(to top right, rgba(66, 123, 255, .8), rgba(6, 232, 249, .8));
+      transition: all .2s;
+    }
+
+    .SearchDecoration {
+      border-radius: 30px 90px/90px 30px;
+    }
+
+    .addTitleDeco,
+    .textAreaDeco {
+      border-radius: 30px 90px/90px 30px;
+      box-shadow: 2px 2px 2px 1px #000;
+    }
+
+    .card {
+      border: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Magic Notes</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto"></ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2 SearchDecoration" id="searchTxt" type="search"
+          placeholder="Search with Title/Note" aria-label="Search">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search fa-lg"
+            title="Search"></i></button>
+      </form>
+    </div>
+  </nav>
+
+
+  <div class="container my-3 text-center">
+    <h1>Welcome To Magic Notes</h1>
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <h5 class="card-title">Add Title</h5>
+          <input type="text" class="form-control addTitleDeco" id="addTitle" aria-describedby="title"
+            placeholder="Enter Title">
+        </div>
+        <h5 class="card-title">Add a Note</h5>
+        <div class="form-group">
+          <textarea class="form-control textAreaDeco" id="addTxt" rows="3" placeholder="Please Write a Note"></textarea>
+        </div>
+        <button class="btn btn-primary" id="addBtn">Add Note</button>
+      </div>
+    </div>
+    <hr>
+    <h1>Your Notes</h1>
+    <hr>
+    <div id="notes" class="row container-fluid d-flex justify-content-center"></div>
+  </div>
+  
+  <script src="jquery-3.4.1.min.js"></script>
+  <script src="popper.min.js"></script>
+  <script src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+  <script>
+    showNotes();
+
+    // If user adds a note, add it to the localStorage
+    let addBtn = document.getElementById("addBtn");
+    addBtn.addEventListener("click",(e) =>{
+      let addTitle = document.getElementById("addTitle");
+      let addTxt = document.getElementById("addTxt");
+      let d = new Date();
+      let DATE = d.toDateString();
+      let Time = d.toLocaleTimeString();
+      let notes = localStorage.getItem("notes");
+
+      if (notes == null) {
+        notesObj = [];
+      } else {
+        notesObj = JSON.parse(notes);
+      }
+      if (addTitle.value == "" || addTxt.value == "") {
+        alert("Plz fill both Add Title and add Note Field.");
+        return;
+      }
+      let removeSpaceTitle = addTitle.value.replace(/^\s+|\s+$/gm, "");
+      let removeSpaceTxt = addTxt.value.replace(/^\s+|\s+$/gm, "");
+      if (removeSpaceTitle.length <= 0 || removeSpaceTxt.length <= 0) {
+        alert("White Spaces is not allowed.");
+        return;
+      }
+      //  if(addTitle.value.replace(/^\s+|\s+$/gm,"").length<=0 || addTxt.value.replace(/^\s+|\s+$/gm,"").length<=0)
+      let myobj = {
+        title: removeSpaceTitle,
+        text: removeSpaceTxt,
+        date: DATE,
+        time: Time
+      }
+      notesObj.push(myobj);
+      localStorage.setItem("notes", JSON.stringify(notesObj));
+      addTitle.value = "";
+      addTxt.value = "";
+      //   console.log(notesObj);
+      showNotes();
+    });
+    // Function to show elements from localStorage
+    function showNotes() {
+      let notes = localStorage.getItem("notes");
+      if (notes == null) {
+        notesObj = [];
+      } else {
+        notesObj = JSON.parse(notes);
+      }
+      let html = "";
+      notesObj.forEach((element, index)=>{
+        html += `
+        <div class="noteCard my-2 mx-2 card" style="width: 18rem;height:fit-content;">
+            	 <div class="card-body gradient gradient_border">
+                	<h5 class="card-title font-italic ${'tiTe'+index}">${element.title}</h5>
+                	<p class="card-text font-italic ${'tiTe'+index}">${element.text}</p>
+                  <div class="d-flex justify-content-between text-muted">
+                    <p class="card-text font-italic"><i class="far fa-clock fa-lg mx-1"></i>${element.date}</p>
+                    <p class="card-text font-italic">${element.time}</p>
+                  </div>
+			            <div class="fa-2x text-left">
+                    <i id="${index}" onclick="let confirmDelete = confirm('Are you sure you want to delete ${element.title} note ?'); if(confirmDelete){deleteNote(this.id)}" class="fad fa-trash-alt mx-2" title="Delete Note"></i>
+                    <i onclick="copy(${index})" class="fad fa-copy fa-swap-opacity mx-2" title="Copy"></i>
+                    <i class="fad fa-thumbtack fa-swap-opacity mx-2" title="Mark as Important"></i>
+                    <i class="fad fa-share fa-swap-opacity" title="Share"></i>
+                  </div>
+              </div>
+        </div>`;
+      });
+      let notesElm = document.getElementById("notes");
+      if (notesObj.length != 0) {
+        notesElm.innerHTML = html;
+      } else {
+        notesElm.innerHTML = `Nothing to show! Use "Add a Note" section above to add notes.`;
+      }
+    }
+    //Function to copy a note
+    const copy=(index)=>{
+      //let str = index;
+      //let ind = str.match(/(\d+)/); //extracting digit from string eg cp1
+      const titleAndText = document.querySelectorAll(`${'.tiTe'+index}`);
+      let list = [].slice.call(titleAndText);
+      let innerText = list.map((e)=>e.innerText).join("\n");
+      // console.log(innerText);
+      navigator.clipboard.writeText(innerText);
+      // titleAndText.forEach(tiTe =>{
+      //   let copyItem = tiTe.textContent;
+      //   console.log(copyItem);
+            // navigator.clipboard.writeText(copyItem);
+      // })
+      // var Title = document.querySelector(`${'#ti'+ind[0]}`).textContent;
+      // var Text = document.querySelector(`${'#te'+ind[0]}`).textContent;
+      // var copyItem = Title +"\n"+Text;
+      // console.log(copyItem);
+      // console.log(titleAndText);
+      // navigator.clipboard.writeText(copyItem);
+      // navigator.clipboard.writeText(Text);
+      // document.execCommand('copy');
+    }
+
+    // Function to delete a note
+    const deleteNote = (index) =>{
+      //   console.log("I am deleting", index);
+
+      let notes = localStorage.getItem("notes");
+      if (notes == null) {
+        notesObj = [];
+      } else {
+        notesObj = JSON.parse(notes);
+      }
+
+      notesObj.splice(index, 1);
+      localStorage.setItem("notes", JSON.stringify(notesObj));
+      showNotes();
+    }
+    //function to search a note
+    let search = document.getElementById('searchTxt');
+    search.addEventListener("input",() =>{
+
+      let inputVal = search.value.toLowerCase();
+      // console.log('Input event fired!', inputVal);
+      let noteCards = document.getElementsByClassName('noteCard');
+      Array.from(noteCards).forEach((element) =>{
+        let cardTxt = element.getElementsByTagName("p")[0].innerText;
+        let cardTitle = element.getElementsByTagName("h5")[0].innerText;
+        if (cardTxt.toLowerCase().includes(inputVal) || cardTitle.toLowerCase().includes(inputVal)) {
+          element.style.display = "block";
+        }
+        else {
+          element.style.display = "none";
+        }
+        // console.log(cardTxt);
+      })
+    })
+
+
+
+    /*
+    Further Features:
+    1. Add Title
+    2. Mark a note as Important
+    3. Separate notes by user
+    4. Sync and host to web server
+    */
+
+  </script>
+</body>
+</html>
