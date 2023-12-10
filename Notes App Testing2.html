@@ -23,21 +23,119 @@
 			border-radius: 30px 90px/90px 30px;
 			box-shadow: 2px 2px 2px 1px #000;
 		}
-		#addBtn,.btn{
+		#addBtn{
 			border-radius: 30px 90px/90px 30px;
 			box-shadow: 2px 2px 2px 1px #000;
 			background-image:linear-gradient(to top right,rgba(6,232,249,.8),rgba(66,123,255,.8));
 		}
+    .btn{
+      background-image:linear-gradient(to top right,rgba(6,232,249,.8),rgba(66,123,255,.8))!important;
+      border-radius: 30px 90px/90px 30px;
+    }
 		#addBtn:hover,.btn:hover{
-			background-image:linear-gradient(to top right,rgba(66,123,255,.8),rgba(6,232,249,.8));
+			background-image:linear-gradient(to top right,rgba(66,123,255,.8),rgba(6,232,249,.8))!important;
 			transition: all .2s;
 		}
+    .btn:hover .searchbox i{
+      color: #fff !important;
+    }
 		.SearchDecoration{border-radius: 30px 90px/90px 30px;}
 		.addTitleDeco, .textAreaDeco{
 			border-radius: 30px 90px/90px 30px;
 			box-shadow: 2px 2px 2px 1px #000;
 		}
 		.card{border:none !important;}
+
+    .dropdown .dropdown-menu li:hover{
+      background: dodgerblue;
+      color: #fff;
+      cursor: pointer;
+    }
+    .dropdown-toggle[aria-expanded="true"]:after{
+      rotate: 180deg;
+    }
+    .dropdown-toggle:after{
+      transition: .5s;
+    }
+    .dropdown-divider{
+      border-bottom: 2px dashed dodgerblue;
+    }
+    @media (max-width: 768px){
+      .fa-search{
+        color: #fff;
+      }
+    }
+    @media (min-width: 992px){
+          .searchbox{
+        /* display: flex; */
+        background-color: #66b2ff;
+        padding: 0 10px;
+        /* border-radius: 10px; */
+        border-radius: 30px 90px/90px 30px;
+      }
+      .searchbox input{
+        /* line-height: 40px; */
+        background: none !important;
+        border: none !important;
+        outline: none !important;
+        color: white !important;
+        font-size: 16px ;
+        width: 0px !important;
+        transition: all 0.5s;
+        margin: 0 !important;
+        padding: 0!important;
+      }
+      .searchbox:hover input{
+        width: 200px !important;
+      }
+      .searchbox input:focus{
+        width: 200px !important;
+      }
+      .SearchDecoration::placeholder{
+        color: rgba(255,255,255,.7);
+      }
+      .searchbox button{
+        height: 40px;
+        width: 40px;
+        background: none;
+        color: white !important;
+        border: none !important;
+        outline: none !important;
+        
+      }
+      .searchbox:hover button{
+        /* color: black;
+        background-color: white; */
+        border-radius: 50%;
+        cursor: pointer;
+      }
+      .searchbox input:focus + button{
+        /* color: black; */
+        /* background-color: white; */
+        background-image:linear-gradient(to top right,rgba(66,123,255,.8),rgba(6,232,249,.8))!important;
+        border-radius: 50%;
+      }
+    }
+    /* @media(max-width: 1024px) and (min-resolution: 120dpi)
+    {
+      .SearchDecoration{border-radius: 30px 90px/90px 30px;}
+    } */
+    /* .bootstrap-select .form-control:focus{
+      outline: 0px none #fff !important;
+    }
+    .bootstrap-select .form-control > div.filter-option:focus{
+      outline: 0px none #fff !important;
+    }
+    .bootstrap-select .form-control > div.filter-option > div.filter-option-inner:focus{
+      outline: 0px none #fff !important;
+    }
+    .bootstrap-select .form-control > div.filter-option > div.filter-option-inner > div.filter-option-inner-inner:focus{
+      outline: 0px none #fff !important;
+    }
+    input[type="search"]::-webkit-search-cancel-button{
+      -webkit-appearance: none;
+      color: #fff;
+    } */
 	</style>
 </head>
 <body>
@@ -50,9 +148,9 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto"></ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 SearchDecoration" id="searchTxt" type="search" placeholder="Search with Title/Note" aria-label="Search">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search fa-lg" title="Search"></i></button>
+            <form class="d-flex form-inline my-2 my-lg-0 searchbox">
+                <input class="form-control  SearchDecoration" id="searchTxt" type="search" placeholder="Search with Title/Note" aria-label="Search" autocomplete="off">
+                <button class="btn my-2 my-sm-0" type="submit"><i class="fa fa-search fa-lg" title="Search"></i></button>
             </form>
         </div>
     </nav>
@@ -77,6 +175,23 @@
         <hr>
         <h1>Your Notes</h1>
         <hr>
+        <div class="dropdown text-right">
+          <i title="Filters" class="fa fa-filter dropdown-toggle" data-toggle="dropdown" aria-expanded="false"></i>
+          <div class="dropdown-menu text-center">
+            <h2 class="dropdown-header text-uppercase text-primary">Filter By :</h2>
+            <div class="dropdown-divider"></div>
+            <li class="dropdown-item">Any Time</li>
+            <li class="dropdown-item">Last Year</li>
+            <li class="dropdown-item">Last Month</li>
+            <li class="dropdown-item">Last Week</li>
+            <li class="dropdown-item">Last Hour</li>
+            <li class="dropdown-item">Today</li>
+            <li class="dropdown-item">This Week</li>
+            <li class="dropdown-item">This Month</li>
+            <li class="dropdown-item">This Year</li>
+            <li class="dropdown-item">Custom Date & Time</li>
+          </div>
+        </div>
         <div id="notes" class="row container-fluid d-flex justify-content-center"> </div>
     </div>
 
@@ -159,7 +274,7 @@ function showNotes() {
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title text-center text-danger text-uppercase">Delete Confirmation</h1>
+          <h1 class="modal-title justify-content-center w-100 text-danger text-uppercase">Delete Confirmation</h1>
         </div>
         <div class="modal-body">
             <p style="font-size:1.6rem !important;">Do you want to delete <strong><mark><span class="text-danger font-italic font-weight-bold">${element.title}</span></mark></strong> note?</p> 

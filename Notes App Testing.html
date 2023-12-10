@@ -4,20 +4,42 @@
   <meta charset="UTF-8">
   <title>Notes App Testing</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="bootstrap-4.4.1-dist/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="fontawesome-pro-master v5.15.1/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="../JQuery CSS & Bootstrap file/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../JQuery CSS & Bootstrap file/fontawesome-pro-master v6.1.1/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="../JQuery CSS & Bootstrap file/fontawesome-pro-5.15.3-web/css/duotone.min.css">
+
   <style>
     :root{
       --width:100vw;
     }
-    .fa-trash-alt,.fa-thumbtack,.fa-clock,.fa-copy,.fa-share{color: rgba(26,94,255,.8);}
-		.fa-trash-alt:hover,.fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover{
+    
+    /* selection css start */
+    ::selection{
+      color: rgb(66, 123, 255);
+      background: rgb(6, 232, 249);
+     }
+     ::-moz-selection{
+      color: rgb(66, 123, 255);
+      background: rgb(6, 232, 249);
+     }
+     /* selection css end */
+
+    .Card_icon_size{font-size: 1.75em;}
+    .fa-filter,.fa-trash-can,.fa-thumbtack,.fa-calendar-clock,.fa-copy,.fa-share,.fa-pen-to-square{color: rgba(26,94,255,.8);}
+		.fa-filter:hover,.fa-trash-can:hover,.fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover,.fa-pen-to-square:hover{
 			cursor: pointer;
 			transform: scale(1.1) rotate(10deg);
 			transition: all .2s;
 		}
-    .fa-trash-alt,.fa-thumbtack,.fa-copy{--fa-secondary-opacity:.45;}
-    .fa-trash-alt:hover{color: #ff0000 !important;}
+    .fa-thumbtack {
+      transform: rotate(45deg);
+    }
+    .fa-trash-can,.fa-thumbtack,.fa-copy,.fa-share,.fa-pen-to-square{--fa-secondary-opacity:.5;}
+    .fa-trash-can:hover{color: #ff0000;}
+    .fa-filter:hover,.fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover,.fa-pen-to-square:hover{
+      color: rgb(6, 232, 249);
+    }
+    
     /* .icon::before{
       display: inline-block;
       font-style: normal;
@@ -30,8 +52,8 @@
       font-weight: 700;
       content: "\f1f8";
     } */
-    h1{position: relative;}
-    h1::before,h1::after{
+    .h1Heading{position: relative;}
+    .h1Heading::before,.h1Heading::after{
       font-family: "Font Awesome 5 Duotone";
       height: 17.4px;
       font-weight: 900;
@@ -39,33 +61,24 @@
       display: block;
       margin: 0 auto;
     }
-    h1::before{
+    .h1Heading::before{
       content: "\f005";
       color: rgb(6, 232, 249);
       position: absolute;
       bottom: 0%;
       width: 100%;
     }
-    h1::after{
+    .h1Heading::after{
       content: "\10f005";
       color: rgb(66, 123, 255);
       border-bottom: 2.45px dashed #3498db;
       width: calc(var(--width) - 80vw);
     }
-    .fa-thumbtack:hover,.fa-copy:hover,.fa-share:hover{
-      color: #ffff00 !important;
-    }
-
-    .fa-thumbtack {
-      transform: rotate(45deg);
-    }
-
     .gradient {
-      background-image: linear-gradient(to top right, rgba(6, 232, 249, .3), rgba(66, 123, 255, .3));
+      background-image: linear-gradient(to top right, rgba(6, 232, 249, .3), rgba(66, 123, 255, .45));
     }
-
     .gradient_border {
-      border: 3px groove rgba(66, 123, 255, .4);
+      border: 3px groove rgba(66, 123, 255, .5);
       border-radius: 30px 90px/90px 30px;
       box-shadow: 2px 2px 2px 1px #000;
     }
@@ -93,9 +106,216 @@
       box-shadow: 2px 2px 2px 1px #000;
     }
 
+    /* filter css start */
+
+    .dropdown-menu{
+      border-radius: 1rem;
+    }
+    .dropdown .dropdown-menu li:hover{
+      background-image: linear-gradient(to top right, rgba(6, 232, 249, .8), rgba(66, 123, 255, .8));
+      color: #fff;
+      cursor: pointer;
+    }
+    .dropdown-menu::before,.dropdown-menu::after{
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      content: "";
+      display: inline-block;
+      left: 33%;
+      position: absolute;
+    }
+    .dropdown-menu::before{
+      border-bottom: 9px solid rgba(0, 0, 0, .7);
+      top: -8px;
+    }
+    .dropdown-menu::after{
+      border-bottom: 8px solid #fff;
+      top: -7px;
+    }
+    .dropdown-toggle[aria-expanded="true"]::after{
+      rotate: -180deg;
+    }
+    .dropdown-toggle::after{
+      transition: rotate .5s;
+    }
+    .dropdown-divider{
+      border-bottom: 2px dashed dodgerblue;
+    }
+    
+    /* filter css end */
+    
     .card {
       border: none !important;
     }
+    .card-heading {
+       border-bottom: 2.45px dotted #3498db;
+       border-width: 4px;
+       text-transform: capitalize;
+    }
+    /* #3498db */
+    .cardContent{
+      height: 6.25rem;
+      overflow-y: auto;
+    }
+    .cardContent::first-letter{
+      initial-letter: 1.1;
+      text-transform: uppercase;
+    }
+    .lineCard{
+      margin-bottom: 2px;
+      border-bottom: 2.45px dashed #3498db; 
+    }
+    
+    /* card scrollbar & "Add a Note" section css start*/
+    
+    .cardContent::-webkit-scrollbar,.cardContent::-webkit-scrollbar-track,.textAreaDeco::-webkit-scrollbar,.textAreaDeco::-webkit-scrollbar-track{
+      width: 8px;
+    }
+    .cardContent::-webkit-scrollbar-thumb,.textAreaDeco::-webkit-scrollbar-thumb{
+      border-radius: 5px;
+    }
+    .cardContent::-webkit-scrollbar-track,.textAreaDeco::-webkit-scrollbar-track{
+      background: #f1f1f1;
+      box-shadow: inset 1.2px 1.2px 1px rgba(0, 0, 0, .2);
+    }
+    .textAreaDeco::-webkit-scrollbar-track{
+      border-radius: 5px;
+    }
+    .cardContent::-webkit-scrollbar-thumb,.textAreaDeco::-webkit-scrollbar-thumb{
+      background: linear-gradient(to top right, rgba(6, 232, 249, .8), rgba(66, 123, 255, .8));
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    .textAreaDeco::-webkit-scrollbar-thumb:hover,.cardContent::-webkit-scrollbar-thumb:hover,.cardContent::-webkit-scrollbar-button:vertical:decrement:hover,.cardContent::-webkit-scrollbar-button:vertical:increment:hover{
+      background-image: linear-gradient(to top right, rgba(66, 123, 255, .8), rgba(6, 232, 249, .8));
+      transition: all .2s;
+    }
+    .cardContent::-webkit-scrollbar-button:vertical:increment{
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      background: linear-gradient(to top right, rgba(6, 232, 249, .8), rgba(66, 123, 255, .8));
+    }
+    .cardContent::-webkit-scrollbar-button:vertical:decrement{
+      border-top-right-radius: 5px;
+      border-top-left-radius: 5px;
+      background: linear-gradient(to top right, rgba(6, 232, 249, .8), rgba(66, 123, 255, .8));
+    }
+    /* card scrollbar & "Add a Note" section css end*/
+    
+    /* {
+      width: 5px;
+      background: #f1f1f1; #c1c1c1
+    } */
+
+    /* copied tooltip start */
+    
+    .icon{
+      position: relative;
+      transition: all 0.2s;
+    }
+    /* tooltip */
+    .icon span{
+      position: absolute;
+      bottom: 45px;
+      left: 30px;
+      font-size: 16px;
+      background: #000;
+      color: #fff;
+      padding: 5px 7px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    /* tooltip arrow */
+    .icon span::after{
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -7px;
+      border-width: 7px;
+      border-style: solid;
+      border-color: #000 transparent transparent transparent;
+    }
+    
+    /* copied tooltip end */
+
+    /* Important ribbon start */
+    .ribbon{
+      position: relative;
+      transition: all 0.2s;
+    }
+    .impRibbon{
+      width: 110px;
+      height: 110px;
+      position: absolute;
+      top: -13px;
+      left: -13px;
+      display: grid;
+      place-items: center;
+      border-radius: 5%;
+      overflow: hidden;
+    }
+    .impRibbon::before{
+      content: 'Important !';
+      width: 150%;
+      height: 25px;
+      position: absolute;
+      transform: rotate(-45deg) translateY(-12.5px);
+      text-transform: uppercase;
+      background: linear-gradient(to top right, rgb(237, 85, 59), rgb(255, 51, 51));
+      color: #fff;
+      font-weight: bolder;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 5px 5px rgba(0, 0, 0, .3);
+      text-shadow: 2px 2px rgba(0, 0, 0, .3);
+      border: 2px dashed #fff;
+    }
+    .impRibbon::after{
+      content: '';
+      background: #bb2b11;
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      left: 0;
+      /* top: 99px; */
+      bottom: 0;
+      z-index: -1;
+      box-shadow: #bb2b11 99px -99px;
+      border-radius: 0 0 3px 0;
+    }
+    /* Important ribbon end */
+
+    /* bootstrap alert close button start */
+    .close:focus,.close:active{
+      outline: none !important;
+    }
+    /* bootstrap alert close button end */
+
+    /* bootstrap modal start */
+
+    /* .modal-body p{
+      font-size:1.6rem !important;
+    }
+    .modal-body span{
+      font-style: italic;
+      font-weight: bold;
+      color: #dc3545;
+    } */
+
+    /* bootstrap modal end */
+    
+    .hidden{
+      display: none;
+      transition: all 0.2s;
+    }
+    /* /////Media Queries///// */
+    @media(max-width: 768px){
+      .tooltip{display: none !important;}
+    }
+       
   </style>
 </head>
 
@@ -110,17 +330,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto"></ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2 SearchDecoration" id="searchTxt" type="search"
-          placeholder="Search with Title/Note" aria-label="Search">
-        <button class="btn btn-primary my-2 my-sm-0" type="submit"><i class="fa fa-search fa-lg"
-            title="Search"></i></button>
+        <input class="form-control mr-sm-2 SearchDecoration" id="searchTxt" type="search" placeholder="Search with Title/Note" aria-label="Search" autocomplete="off">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit" rel="tooltip" data-placement="bottom" title="Search"><i class="fa fa-search fa-lg"
+            ></i></button>
       </form>
     </div>
   </nav>
 
 
   <div class="container my-3 text-center">
-    <h1>Welcome To Magic Notes</h1>
+    <h1 class="h1Heading">Welcome To Magic Notes</h1>
     <div class="card">
       <div class="card-body">
         <div class="form-group">
@@ -135,18 +354,94 @@
         <button class="btn btn-primary" id="addBtn">Add Note</button>
       </div>
     </div>
+    <hr id="hrLine">
+    <h1 class="h1Heading">Your Notes</h1>
     <hr>
-    <h1>Your Notes</h1>
-    <hr>
+    <div class="dropdown text-right">
+          <i title="Filters" class="fa fa-filter fa-lg dropdown-toggle" rel="tooltip" data-placement="bottom" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+          <div class="dropdown-menu text-center font-italic shadow" aria-labelledby="dropdownMenu">
+            <h2 class="dropdown-header text-uppercase text-primary">Filter By :</h2>
+            <div class="dropdown-divider"></div>
+            <li class="dropdown-item">Any Time</li>
+            <li class="dropdown-item">Last Year</li>
+            <li class="dropdown-item">Last Month</li>
+            <li class="dropdown-item">Last Week</li>
+            <li class="dropdown-item">Last Hour</li>
+            <li class="dropdown-item">Today</li>
+            <li class="dropdown-item">This Week</li>
+            <li class="dropdown-item">This Month</li>
+            <li class="dropdown-item">This Year</li>
+            <li class="dropdown-item">Custom Date & Time</li>
+          </div>
+        </div>
     <div id="notes" class="row container-fluid d-flex justify-content-center"></div>
   </div>
   
-  <script src="jquery-3.4.1.min.js"></script>
-  <script src="popper.min.js"></script>
-  <script src="bootstrap-4.4.1-dist/js/bootstrap.min.js"></script>
+  <script src="../JQuery CSS & Bootstrap file/jquery-3.4.1.min.js"></script>
+  <script src="../JQuery CSS & Bootstrap file/New folder/popper.min.js"></script>
+  <script src="../JQuery CSS & Bootstrap file/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
   <script>
-    showNotes();
 
+  "use strict";
+  let notesObj ,ALERT, notesElm = document.querySelector("#notes");
+  
+  showNotes();
+
+   //bootstrap tooltip
+   $(document).ready(()=>{ 
+      $('body').tooltip({
+        selector: '[rel="tooltip"]'
+      });
+    });
+
+    //check notes are null or not
+    function notesNullChecked(){
+      let notes = localStorage.getItem("notes");
+        if (notes == null) {
+          notesObj = [];
+        } else {
+          notesObj = JSON.parse(notes);
+        }
+    }
+
+    // Bootstrap alert
+    const Alert = (string) =>{
+      return ALERT =`<div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                              ${string}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+    }
+
+    // Bootstrap modal
+
+    // const Modal = (index,title,content,actionBtn,onClickAction) =>{
+    //   let modal =`<div class="modal fade" id="myModal" role="dialog" data-backdrop="static">
+    //                     <div class="modal-dialog">
+                        
+    //                       <!-- Modal content-->
+    //                       <div class="modal-content">
+    //                         <div class="modal-header">
+    //                           <h1 class="modal-title justify-content-center w-100 text-danger text-uppercase">${title}</h1>
+    //                         </div>
+                            
+    //                         <div class="modal-body">
+    //                             ${content}
+    //                         </div>
+                            
+    //                         <div class="modal-footer">
+    //                             <button type="button" id="${index}" onclick="${onClickAction}" class="btn btn-primary" data-dismiss="modal">${actionBtn}</button>
+    //                             <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    //                         </div>
+    //                       </div>   
+    //                     </div>
+    //                   </div>`;
+    //                   notesElm.insertAdjacentHTML("beforebegin",modal);
+    //                   <i onclick="Modal('3','Delete','<p style="font-size:1.6rem !important;">Do you want to delete <strong><mark><span class="text-danger font-italic font-weight-bold">${element.title}</span></mark></strong> note?</p> ','Delete','delete()')" data-target="#myModal" data-toggle="modal" class="fa-duotone fa-trash-can mx-1" title="Delete Note" rel="tooltip" data-placement="bottom"></i>
+            //  <i data-target="#myModal" data-toggle="modal" onclick="Modal(${index},'Delete Confirmation','<p>Do you want to delete <strong><mark><span>${element.title}</span></mark></strong> note?</p>','Delete','deleteNote(this.id)')" class="fa-duotone fa-trash-can mx-1" title="Delete Note" rel="tooltip" data-placement="bottom"></i>             
+    // }
+    
     // If user adds a note, add it to the localStorage
     let addBtn = document.getElementById("addBtn");
     addBtn.addEventListener("click",(e) =>{
@@ -155,21 +450,17 @@
       let d = new Date();
       let DATE = d.toDateString();
       let Time = d.toLocaleTimeString();
-      let notes = localStorage.getItem("notes");
-
-      if (notes == null) {
-        notesObj = [];
-      } else {
-        notesObj = JSON.parse(notes);
-      }
+      notesNullChecked();
       if (addTitle.value == "" || addTxt.value == "") {
-        alert("Plz fill both Add Title and add Note Field.");
+        ALERT = Alert(`Plz fill both <strong>Add Title</strong> and <strong>Add Note</strong> Field.`);
+        document.querySelector(".card").insertAdjacentHTML("afterend",ALERT);        
         return;
       }
       let removeSpaceTitle = addTitle.value.replace(/^\s+|\s+$/gm, "");
       let removeSpaceTxt = addTxt.value.replace(/^\s+|\s+$/gm, "");
       if (removeSpaceTitle.length <= 0 || removeSpaceTxt.length <= 0) {
-        alert("White Spaces is not allowed.");
+        ALERT = Alert(`<strong>White Spaces is not allowed.</strong>`);
+        document.querySelector("#hrLine").insertAdjacentHTML("beforebegin",ALERT);
         return;
       }
       //  if(addTitle.value.replace(/^\s+|\s+$/gm,"").length<=0 || addTxt.value.replace(/^\s+|\s+$/gm,"").length<=0)
@@ -188,48 +479,47 @@
     });
     // Function to show elements from localStorage
     function showNotes() {
-      let notes = localStorage.getItem("notes");
-      if (notes == null) {
-        notesObj = [];
-      } else {
-        notesObj = JSON.parse(notes);
-      }
+      notesNullChecked();
       let html = "";
       notesObj.forEach((element, index)=>{
         html += `
-        <div class="noteCard my-2 mx-2 card" style="width: 18rem;height:fit-content;">
-            	 <div class="card-body gradient gradient_border">
-                	<h5 class="card-title font-italic ${'tiTe'+index}">${element.title}</h5>
-                	<p class="card-text font-italic ${'tiTe'+index}">${element.text}</p>
-                  <div class="d-flex justify-content-between text-muted">
-                    <p class="card-text font-italic"><i class="far fa-clock fa-lg mx-1"></i>${element.date}</p>
+        <div class="noteCard my-2 mx-2 card" style="width: 18rem;box-sizing: border-box;">
+            	 <div class="card-body gradient gradient_border ribbon">
+                  <span class="impRibbon hidden ${'imp-'+index}"></span>
+                	<h5 class="card-title card-heading font-italic ${'tiTe-'+index}">${element.title}</h5>
+                	<p class="cardContent card-text font-italic ${'tiTe-'+index}">${element.text}</p>
+                  <div class="lineCard d-flex justify-content-between text-muted">
+                    <p class="card-text font-italic"><i class="fa-duotone fa-calendar-clock fa-lg mx-1"></i>${element.date}</p>
                     <p class="card-text font-italic">${element.time}</p>
-                  </div>
-			            <div class="fa-2x text-left">
-                    <i id="${index}" onclick="let confirmDelete = confirm('Are you sure you want to delete ${element.title} note ?'); if(confirmDelete){deleteNote(this.id)}" class="fad fa-trash-alt mx-2" title="Delete Note"></i>
-                    <i onclick="copy(${index})" class="fad fa-copy fa-swap-opacity mx-2" title="Copy"></i>
-                    <i class="fad fa-thumbtack fa-swap-opacity mx-2" title="Mark as Important"></i>
-                    <i class="fad fa-share fa-swap-opacity" title="Share"></i>
+                  </div>     
+			            <div class="icon Card_icon_size text-left">
+                    <i id="${index}" onclick="let confirmDelete = confirm('Are you sure you want to delete ${element.title} note ?'); if(confirmDelete){deleteNote(this.id)}" class="fa-duotone fa-trash-can mx-1" title="Delete Note" rel="tooltip" data-placement="bottom"></i>
+                    <i onclick="copy(${index})" class="fa-duotone fa-copy fa-swap-opacity mx-1" title="Copy" rel="tooltip" data-placement="bottom"></i><span class="hidden" id="${'copiedTooltip-'+index}">Copied!</span>
+                    <i class="fa-duotone fa-pen-to-square fa-swap-opacity mx-1" title="Edit" rel="tooltip" data-placement="bottom"></i>
+                    <i onclick="important(${index})" class="fa-duotone fa-thumbtack fa-swap-opacity mx-1" title="Mark as Important" rel="tooltip" data-placement="bottom"></i>
+                    <i class="fa-duotone fa-share fa-swap-opacity mx-1" title="Share" rel="tooltip" data-placement="bottom"></i>
                   </div>
               </div>
         </div>`;
       });
-      let notesElm = document.getElementById("notes");
       if (notesObj.length != 0) {
         notesElm.innerHTML = html;
       } else {
-        notesElm.innerHTML = `Nothing to show! Use "Add a Note" section above to add notes.`;
+        notesElm.innerHTML = `<p class="alert alert-primary"><strong>Nothing to show!</strong> Use <strong>"Add a Note"</strong> section above to add notes.</p>`;
       }
     }
     //Function to copy a note
     const copy=(index)=>{
-      //let str = index;
-      //let ind = str.match(/(\d+)/); //extracting digit from string eg cp1
-      const titleAndText = document.querySelectorAll(`${'.tiTe'+index}`);
+      const titleAndText = document.querySelectorAll(`${'.tiTe-'+index}`);
       let list = [].slice.call(titleAndText);
       let innerText = list.map((e)=>e.innerText).join("\n");
       // console.log(innerText);
       navigator.clipboard.writeText(innerText);
+
+      // Another Attempt
+      
+      //let str = index;
+      //let ind = str.match(/(\d+)/); //extracting digit from string eg cp1
       // titleAndText.forEach(tiTe =>{
       //   let copyItem = tiTe.textContent;
       //   console.log(copyItem);
@@ -243,42 +533,75 @@
       // navigator.clipboard.writeText(copyItem);
       // navigator.clipboard.writeText(Text);
       // document.execCommand('copy');
+        
+      // copied tooltip show hide
+      
+      document.querySelector(`${'#copiedTooltip-'+index}`).classList.remove("hidden");  
+      setTimeout(()=>{
+        document.querySelector(`${'#copiedTooltip-'+index}`).classList.add("hidden");
+      },300);  
+    }
+
+    //Function to mark important a note
+    const important = (index) =>{
+      document.querySelector(`${'.imp-'+index}`).classList.toggle("hidden");
     }
 
     // Function to delete a note
     const deleteNote = (index) =>{
       //   console.log("I am deleting", index);
-
-      let notes = localStorage.getItem("notes");
-      if (notes == null) {
-        notesObj = [];
-      } else {
-        notesObj = JSON.parse(notes);
-      }
-
+      notesNullChecked();
       notesObj.splice(index, 1);
       localStorage.setItem("notes", JSON.stringify(notesObj));
-      showNotes();
+      
+      //tooltip dispose
+      $('.tooltip').tooltip('dispose');
+      showNotes(); 
     }
+
+    // function to improve search
+
+    const debounce = (Function,delay) =>{
+      let timer;
+      return (...args) =>{
+        clearTimeout(timer);
+        timer = setTimeout(()=>{
+          Function.apply(this,args);
+        },delay);
+      }
+    }
+    
     //function to search a note
     let search = document.getElementById('searchTxt');
-    search.addEventListener("input",() =>{
-
+    search.addEventListener("input",debounce(() =>{
       let inputVal = search.value.toLowerCase();
       // console.log('Input event fired!', inputVal);
       let noteCards = document.getElementsByClassName('noteCard');
+      let foundMatch = false;
       Array.from(noteCards).forEach((element) =>{
         let cardTxt = element.getElementsByTagName("p")[0].innerText;
         let cardTitle = element.getElementsByTagName("h5")[0].innerText;
-        if (cardTxt.toLowerCase().includes(inputVal) || cardTitle.toLowerCase().includes(inputVal)) {
-          element.style.display = "block";
-        }
-        else {
-          element.style.display = "none";
-        }
+          if (cardTxt.toLowerCase().includes(inputVal) || cardTitle.toLowerCase().includes(inputVal)) {
+            element.style.display = "block";
+            foundMatch = true;
+          }
+          else {
+            element.style.display = "none";
+          }
         // console.log(cardTxt);
       })
-    })
+      if(!foundMatch){
+            ALERT =`<div id="searchNotFoundAlert" class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+                            <strong>Sorry</strong>, Match not found for <strong>"${inputVal}"</strong>.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+            notesElm.insertAdjacentHTML("beforebegin",ALERT);
+            $("#searchNotFoundAlert").on("closed.bs.alert",()=>showNotes());
+            search.value = null;
+          }
+    },575))
 
 
 
